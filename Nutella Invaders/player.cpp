@@ -15,7 +15,7 @@ const Keyboard::Key controls[4] =
 };
 
 
-Player::Player() : _hp(3), _speed(500), collisionSquare(Vector2f(32,32)), Entity(IntRect(Vector2i(0, 0), Vector2i(64, 64)))
+Player::Player() : _hp(3), _speed(250), collisionSquare(Vector2f(32,32)), Entity(IntRect(Vector2i(0, 0), Vector2i(64, 64)))
 {
     setOrigin(Vector2f(32.f, 32.f));
     if (!_texture.loadFromFile("..\\Nutella Invaders\\res\\img\\Player.png"))
@@ -64,9 +64,44 @@ void Player::Update(float dt)
     }
 
 
-    // if (getPosition().x < screenWidth && getPosition().x > 0)
-
-
     move(Vector2f(direction_x * _speed * dt, direction_y * _speed * dt));
+    Veer(direction_x);
     Pulse(dt);
+}
+
+void Player::Veer(float power)
+{
+    float rotation = this->getRotation();
+    bool shifted = false;
+
+    if (power > 0)
+    {
+        if ((180.f - rotation) >= 165)
+        {
+            rotate(power * 0.005);
+            shifted = true;    
+        }
+    }
+
+    if (power < 0)
+    {
+        if ((180.f - rotation) <= -165)
+        {
+            rotate(power * 0.005);
+            shifted = true;
+        }
+    }
+    
+    if (!shifted)
+    {
+        if (rotation < 30)
+        {
+            rotate(-0.01);
+        }
+        if (rotation > 330)
+        {
+            rotate(0.005);
+
+        }
+    }
 }

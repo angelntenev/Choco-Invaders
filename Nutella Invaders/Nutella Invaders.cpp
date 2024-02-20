@@ -11,9 +11,11 @@ Player* player = new Player();
 
 
 
+
+
+
 void Load()
 {
-
     
 }
 
@@ -24,11 +26,16 @@ void Update(RenderWindow& window)
     float dt = clock.restart().asSeconds();
     // check and consume events
     Event event;
-    while (window.pollEvent(event)) {
-        if (event.type == Event::Closed) {
+    while (window.pollEvent(event)) 
+    {
+        /*if (event.type == Event::Closed) {
             window.close();
             return;
-        }
+        }*/
+
+
+        
+
     }
 
     // Quit Via ESC Key
@@ -38,12 +45,15 @@ void Update(RenderWindow& window)
 
     player->Update(dt);
 
+
+
     //Pulse(player, dt);
 }
 
 void Render(RenderWindow& window) {
     // Draw Everything
     window.draw(*player);
+
 }
 
 int main()
