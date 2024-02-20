@@ -3,20 +3,38 @@
 #include "game.h"
 #include "Entity.h"
 #include "player.h"
+#include "enemy.h"
 
 using namespace sf;
 using namespace std;
 
-Player* player = new Player();
+unique_ptr<Player> player = make_unique<Player>();
+vector<unique_ptr<Enemy>> enemies;
 
 
-
-
+//gameWidth = 800, gameHeight = 600;
 
 
 void Load()
 {
-    
+    int numEnemiesPerRow = 10; 
+    float spacingX = gameWidth / (numEnemiesPerRow + 1); // Spacing along the x-axis
+    float spacingY = gameHeight / 10; // Spacing along the y-axis
+    float offsetY = gameHeight / 8; // Starting Y offset for the first row
+
+    for (int i = 0; i < 20; i++)
+    {
+        enemies.push_back(make_unique<Enemy>());
+
+        int row = i / numEnemiesPerRow;
+        int posInRow = i % numEnemiesPerRow;
+
+        float posX = (posInRow + 1) * spacingX; 
+        float posY = offsetY + row * spacingY;
+
+        enemies.back()->setPosition(posX, posY);
+    }
+
 }
 
 void Update(RenderWindow& window)
@@ -28,14 +46,10 @@ void Update(RenderWindow& window)
     Event event;
     while (window.pollEvent(event)) 
     {
-        /*if (event.type == Event::Closed) {
+        if (event.type == Event::Closed) {
             window.close();
             return;
-        }*/
-
-
-        
-
+        }
     }
 
     // Quit Via ESC Key
@@ -53,7 +67,10 @@ void Update(RenderWindow& window)
 void Render(RenderWindow& window) {
     // Draw Everything
     window.draw(*player);
-
+    for (const auto& enemy : enemies) 
+    {
+        window.draw(*enemy);
+    }
 }
 
 int main()

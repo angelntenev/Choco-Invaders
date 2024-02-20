@@ -2,12 +2,10 @@
 #include "player.h"
 #include "game.h"
 #include <iostream>
-#include <filesystem>
 
 using namespace std;
 using namespace sf;
 
-namespace fs = std::filesystem;
 
 const Keyboard::Key controls[4] =
 {
@@ -15,16 +13,16 @@ const Keyboard::Key controls[4] =
 };
 
 
-Player::Player() : _hp(3), _speed(250), collisionSquare(Vector2f(32,32)), Entity(IntRect(Vector2i(0, 0), Vector2i(64, 64)))
+Player::Player() : _hp(3), _speed(250), collisionSquare(Vector2f(24,24)), Entity(IntRect(Vector2i(0, 0), Vector2i(48, 48)))
 {
-    setOrigin(Vector2f(32.f, 32.f));
+    setOrigin(Vector2f(24.f, 24.f));
     if (!_texture.loadFromFile("..\\Nutella Invaders\\res\\img\\Player.png"))
     {
         cerr << "Failed to load spritesheet!" << std::endl;
     }
     setTexture(_texture);
     setTextureRect(_sprite);
-    setPosition(gameWidth / 2, gameHeight / 2);
+    setPosition(gameWidth / 2, gameHeight - this->getLocalBounds().height);
     setScale(1.01, 1.f);
 
 }
