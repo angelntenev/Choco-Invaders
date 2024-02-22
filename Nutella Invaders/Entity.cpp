@@ -14,7 +14,8 @@ void Entity::Update(float dt) {
 
 }
 
-void Entity::Pulse(float dt) {
+void Entity::Pulse(float dt) 
+{
     Vector2f scale = this->getScale();
 
     if (scale.x > 1 && scale.y == 1) 
@@ -43,4 +44,14 @@ void Entity::Pulse(float dt) {
             }
         }
     }
+}
+
+bool Entity::isToBeDestroyed()
+{
+    return toBeDestroyed;
+}
+
+void Entity::prepareForDestruction(bool destroy)
+{
+    toBeDestroyed = destroy;
 }
